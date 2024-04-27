@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_CLOUD_URL,
+    baseURL: process.env.REACT_APP_API_URL,
     headers: {
         "Content-Type": `application/json;charset=UTF-8`,
         "Accept": "application/json",
-        "Access-Control-Allow-Origin": `https://habitual-irony.github.io`,
+        "Access-Control-Allow-Origin": process.env.REACT_APP_API_URL,
         'Access-Control-Allow-Credentials':"true",
     },
     withCredentials: true

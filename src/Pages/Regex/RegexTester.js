@@ -1,79 +1,107 @@
-import React, {useEffect, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import './RegexTester.css';
-import {javaDefaultValue} from "../Ide/defaultValues";
+import {CCard, CCardBody, CCardText, CCardTitle, CCol, CFormCheck, CRow,} from '@coreui/react';
+import Editor from "@monaco-editor/react";
 
 const RegexTester = () => {
     const [regex, setRegex] = useState('');
     const [text, setText] = useState('');
-    const [options, setOptions] = useState({ ignoreCase: false, multiline: false });
     const [matches, setMatches] = useState([]);
+    const editorRef = useRef(null);
+    const [options, setOptions] = useState({
+        '직접 입력': '',
+        '휴대폰번호': '\\d{3}-\\d{3,4}-\\d{4}$',
+        '이메일': '^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$',
+        '비밀번호': '.*(?=^.{8,15}$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$'
+    });
 
     const handleRegexChange = (e) => {
         setRegex(e.target.value);
     };
 
-    const handleTextChange = (e) => {
-        setText(e.target.value);
+    const handleOptionChange = (option) => {
+        setRegex(options[option]);
     };
 
-    const handleOptionChange = (optionName) => {
-        setOptions({ ...options, [optionName]: !options[optionName] });
+    const handleEditorDidMount = (editor) => {
+        editorRef.current = editor;
     };
 
-    const handleMatch = () => {
-        const re = new RegExp(regex, `${options.ignoreCase ? 'i' : ''}${options.multiline ? 'm' : ''}`);
-        const foundMatches = text.match(re) || [];
-        setMatches(foundMatches);
+    const handleEditorChange = (value) => {
+        setText(value, () => {
+            const re = new RegExp(regex, 'gm');
+            const foundMatches = text.match(re) || [];
+            setMatches(foundMatches);
+        });
+    };
+
+    const editorOptions = {
+        selectOnLineNumbers: true,
+        automaticLayout: true,
+        fontSize: 14,
+        minimap: {
+            enabled: true,
+        },
+        suggest: {
+            // 자동완성 제안 활성화
+            snippetsPreventQuickSuggestions: true,
+            suggestions: [],
+        },
+        padding: {
+            top: 10,
+            bottom: 10,
+            left: 20,
+            right: 20,
+        },
+        tabSize: 2,
     };
 
     return (
-        <div className="regex-tester">
-            <h1 className="app-title">Regex Tester</h1>
-            <div className="input-section">
-        <textarea
-            className="text-input"
-            placeholder="Enter text here..."
-            value={text}
-            onChange={handleTextChange}
-        />
-            </div>
-            <div className="input-section">
-                <input
+        <CRow>
+            <CCol xs={12} className={'mb-2'}>
+                <Editor
+                    height='calc(40vh)'
+                    width='100%'
+                    defaultLanguage='java'
+                    onMount={handleEditorDidMount}
+                    value={text}
+                    options={editorOptions}
+                    onChange={handleEditorChange}
+                />
+            </CCol>
+            <CCol xs={12} className={'mb-2'}>
+                {Object.keys(options).map((option, index) => (
+                    <CFormCheck
+                        key={index}
+                        id={option}
+                        name="options"
+                        label={option}
+                        checked={regex === options[option]}
+                        onChange={() => handleOptionChange(option)}
+                    />
+                ))}
+            </CCol>
+            <CCol xs={12} className={'mb-2'}>
+                <textarea
                     className="regex-input"
-                    type="text"
                     placeholder="Enter regex here..."
                     value={regex}
                     onChange={handleRegexChange}
                 />
-                <button className="match-button" onClick={handleMatch}>Match</button>
-            </div>
-            <div className="options-section">
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={options.ignoreCase}
-                        onChange={() => handleOptionChange('ignoreCase')}
-                    />
-                    Ignore Case
-                </label>
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={options.multiline}
-                        onChange={() => handleOptionChange('multiline')}
-                    />
-                    Multiline
-                </label>
-            </div>
-            <div className="matches-section">
-                <h2 className="matches-title">Matches:</h2>
-                <div className="matches">
-                    {matches.map((match, index) => (
-                        <span key={index} className="match">{match}</span>
-                    ))}
-                </div>
-            </div>
-        </div>
+            </CCol>
+            <CCol xs={12} className={'mb-2'}>
+                <CCard>
+                    <CCardBody>
+                        <CCardTitle>Matches:</CCardTitle>
+                        <CCardText>
+                            {matches.map((match, index) => (
+                                <span key={index} className="match">{match}</span>
+                            ))}
+                        </CCardText>
+                    </CCardBody>
+                </CCard>
+            </CCol>
+        </CRow>
     );
 };
 
