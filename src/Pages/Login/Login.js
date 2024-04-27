@@ -33,7 +33,7 @@ const Login = () => {
 
     const kakaoLogin = (e) => {
     e.preventDefault();
-    window.location.href = "https://kauth.kakao.com/oauth/authorize?client_id=28893c40e75d5ff4f79fe0cedabb2f2b"
+    window.location.href = "https://kauth.kakao.com/oauth/authorize?client_id=" + process.env.REACT_APP_KAKAO_KEY
         +"&redirect_uri=https://habitual-irony.github.io"
         +"&response_type=code";
     }

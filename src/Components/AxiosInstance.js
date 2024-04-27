@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    baseURL: 'https://port-0-back-api-128y2k2llvhomk0i.sel5.cloudtype.app',
+    baseURL: process.env.REACT_APP_CLOUD_URL,
     headers: {
         "Content-Type": `application/json;charset=UTF-8`,
         "Accept": "application/json",

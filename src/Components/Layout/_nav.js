@@ -8,7 +8,7 @@ import { CNavItem, CNavTitle } from '@coreui/react'
 const _nav = [
   {
     component: CNavTitle,
-    name: 'Web IDE',
+    name: '준비 중..',
   },
   {
     component: CNavItem,
@@ -18,7 +18,7 @@ const _nav = [
   },
   {
     component: CNavTitle,
-    name: 'Regex',
+    name: 'front',
   },
   {
     component: CNavItem,
@@ -27,23 +27,21 @@ const _nav = [
     icon: <CIcon icon={cibJava} customClassName="nav-icon" />,
   },
   {
-    component: CNavTitle,
-    name: 'Diff',
-  },
-  {
     component: CNavItem,
     name: 'Diff',
     to: '/lethe/diff',
     icon: <CIcon icon={cibJava} customClassName="nav-icon" />,
   },
   {
-    component: CNavTitle,
-    name: 'Toast',
-  },
-  {
     component: CNavItem,
     name: 'Toast',
     to: '/lethe/toast',
+    icon: <CIcon icon={cibJava} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Chonky',
+    to: '/lethe/chonky',
     icon: <CIcon icon={cibJava} customClassName="nav-icon" />,
   },
 ]
