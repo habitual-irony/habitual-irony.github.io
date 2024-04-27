@@ -1,0 +1,74 @@
+/* RegexTester.css */
+
+.regex-tester {
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.app-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.input-section {
+  margin-bottom: 15px;
+}
+
+.text-input, .regex-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.match-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.match-button:hover {
+  background-color: #0056b3;
+}
+
+.options-section {
+  margin-bottom: 15px;
+}
+
+.options-section label {
+  margin-right: 20px;
+  font-size: 16px;
+}
+
+.matches-title {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.matches {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.match {
+  background-color: #ffff00;
+  padding: 5px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #333;
+}

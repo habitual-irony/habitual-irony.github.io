@@ -1,0 +1,51 @@
+@font-face {
+  font-family: 'NeoDunggeunmoPro-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/NeoDunggeunmoPro-Regular.woff2')
+  format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.Login {
+  display: flex;
+  margin: 10px;
+  flex-direction: column;
+  justify-content: center;
+  height: 90vh;
+  align-items: center;
+}
+
+.Login >.title {
+  display: inline;
+  margin: 0 auto;
+  color: #04c92f;
+  font-size: 42px;
+  letter-spacing: 0.2cm;
+  font-family: 'NeoDunggeunmoPro-Regular';
+}
+
+.Login >.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding-top: 30px;
+}
+
+.Login >.form >.loginBtn_kakao{
+  margin: 10px auto;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  padding: 15px;
+  color: black;
+  background-color: #FEE500;
+  font-family: 'NeoDunggeunmoPro-Regular';
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.Login >.form >.loginBtn_kakao:hover {
+  background-color: #FFCD00;
+}
