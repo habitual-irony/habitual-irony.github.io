@@ -6,7 +6,7 @@ import './scss/style.scss'
 
 function App() {
   return (
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
           <AuthProvider>
               <AppRouters />
           </AuthProvider>

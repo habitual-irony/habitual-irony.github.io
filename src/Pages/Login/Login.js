@@ -1,15 +1,44 @@
 import React from 'react-hook-form';
 import styles from './Login.module.css';
+import {useLocation, useNavigate} from "react-router-dom";
+import {useEffect} from "react";
+import axios from "../../Components/AxiosInstance";
 
 const Login = () => {
-  const kakaoLogin = (e) => {
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const code = searchParams.get('code');
+    const navigate = useNavigate();
+
+    const kakaoLoginCallBack = () => {
+        const Data = {
+            code
+        };
+
+        axios
+            .post('/login/kakaoLoginCallBack', Data)
+            .then((response) => {
+                navigate('/login/callBack', {state : {result : response.data.result, kakaoEmail : response.data.kakaoEmail, id : response.data.id}});
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
+    useEffect(() => {
+        if(code?.length > 1) {
+            kakaoLoginCallBack();
+        }
+    }, [])
+
+    const kakaoLogin = (e) => {
     e.preventDefault();
     window.location.href = "https://kauth.kakao.com/oauth/authorize?client_id=28893c40e75d5ff4f79fe0cedabb2f2b"
-        +"&redirect_uri=https://port-0-back-api-128y2k2llvhomk0i.sel5.cloudtype.app/login/kakaoLoginCallBack"
+        +"&redirect_uri=https://habitual-irony.github.io"
         +"&response_type=code";
-  }
+    }
 
-  return (
+    return (
     <div className={styles.Login}>
       <div className={styles.title}>레테's 놀이터</div>
       <form className={styles.form}>
@@ -18,7 +47,7 @@ const Login = () => {
         </button>
       </form>
     </div>
-  );
+    );
 };
 
 export default Login;

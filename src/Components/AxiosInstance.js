@@ -5,8 +5,7 @@ const axiosInstance = axios.create({
     headers: {
         "Content-Type": `application/json;charset=UTF-8`,
         "Accept": "application/json",
-        // "Authorization" : "Bearer " + localStorage.getItem("key"),
-        "Access-Control-Allow-Origin": `http://localhost:3000`,
+        "Access-Control-Allow-Origin": `https://habitual-irony.github.io`,
         'Access-Control-Allow-Credentials':"true",
     },
     withCredentials: true
@@ -34,7 +33,7 @@ axiosInstance.interceptors.response.use(
         if (response?.status === 401) {
             localStorage.removeItem("key");
             alert("로그인 다시해라...");
-            return window.location.href = '/login';
+            return window.location.href = '/';
         }
 
     }

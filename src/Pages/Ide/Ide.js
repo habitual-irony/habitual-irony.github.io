@@ -108,7 +108,7 @@ const Ide = () => {
                 </CCard>
             </CCol>
             <CCol xs={12} className={'d-grid gap-1 d-md-flex justify-content-md-end'}>
-                <CButton color="primary" variant="outline" size="lg" onClick={compile}>Compile</CButton>
+                <CButton color="primary" variant="outline" size="lg" onClick={compile} disabled>Compile</CButton>
             </CCol>
         </CRow>
     )
