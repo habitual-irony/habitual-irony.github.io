@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import './RegexTester.css';
 import {CCard, CCardBody, CCardText, CCardTitle, CCol, CFormCheck, CRow,} from '@coreui/react';
 import Editor from "@monaco-editor/react";
@@ -28,12 +28,14 @@ const RegexTester = () => {
     };
 
     const handleEditorChange = (value) => {
-        setText(value, () => {
-            const re = new RegExp(regex, 'gm');
-            const foundMatches = text.match(re) || [];
-            setMatches(foundMatches);
-        });
+        setText(value);
     };
+
+    useEffect(() => {
+        const re = new RegExp(regex, 'gm');
+        const foundMatches = text.match(re) || [];
+        setMatches(foundMatches);
+    }, [regex, text]);
 
     const editorOptions = {
         selectOnLineNumbers: true,
