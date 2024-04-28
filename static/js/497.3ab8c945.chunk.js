@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkhabitual_irony=self.webpackChunkhabitual_irony||[]).push([[497],{41497:(a,e,s)=>{s.r(e),s.d(e,{default:()=>h});var u=s(44414);const h=()=>(0,u.jsx)("p",{children:"\uc5b4\uc11c\uc635\uc1fc"})}}]);
