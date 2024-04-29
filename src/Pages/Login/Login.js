@@ -26,6 +26,7 @@ const Login = () => {
     };
 
     useEffect(() => {
+        localStorage.removeItem("key");
         if(code?.length > 1) {
             kakaoLoginCallBack();
         }
