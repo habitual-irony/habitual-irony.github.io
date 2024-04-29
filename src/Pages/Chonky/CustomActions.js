@@ -23,6 +23,6 @@ const viewFileAction = defineFileAction({
 });
 
 export const customActions = [
-    viewFileAction,
+    // viewFileAction,
     uploadFileAction
 ];

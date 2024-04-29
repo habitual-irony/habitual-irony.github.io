@@ -18,6 +18,8 @@ import tableMergedCell from "@toast-ui/editor-plugin-table-merged-cell";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
+import * as gh from "../../api/githublibrary";
+
 const colorSyntaxOptions = {
   preset: [
     "#333333", "#666666", "#FFFFFF", "#EE2323", "#F89009", "#009A87", "#006DD7", "#8A3DB6",
@@ -25,11 +27,13 @@ const colorSyntaxOptions = {
   ],
 };
 
-const CONTENT_KEY = "TOAST";
+let item;
+let path;
 
 const ToastEditor = () => {
   const editorRef = useRef(null);
   const [editMode, setEditMode] = useState(false);
+
   let initData = `
   <br/><br/>
   # 제목
@@ -43,8 +47,9 @@ const ToastEditor = () => {
 
   const handleSave = () => {
     let markDownContent = editorRef.current.getInstance().getMarkdown();
-    localStorage.setItem(CONTENT_KEY, markDownContent);
     setEditMode(!editMode);
+    item = markDownContent;
+    gh.fileWrite(path, markDownContent);
   };
 
   const makePdf = async () => {
@@ -89,7 +94,19 @@ const ToastEditor = () => {
   };
 
   const init = async() => {
-    let item = localStorage.getItem(CONTENT_KEY);
+
+    let open = localStorage.getItem("FILE_PATH");
+
+    if(open) {
+      // let filePath = location.state.filePath;
+      let filePath = JSON.parse(open).filePath;
+      path = JSON.parse(open).filePath;
+      let result = await gh.fileRead(`${filePath}`);
+
+      if(result !== undefined) item = result;
+
+      localStorage.removeItem("FILE_PATH");
+    }
 
     if (editMode === false) {
       const viewer = new Viewer({
@@ -103,7 +120,6 @@ const ToastEditor = () => {
       if (item) viewer.setMarkdown(item);
       else {
         viewer.setMarkdown(initData);
-        localStorage.setItem(CONTENT_KEY, initData);
       }
     }
 
@@ -116,67 +132,71 @@ const ToastEditor = () => {
     }
   }
 
+
   useEffect(() => {
     init();
+    return () => {
+
+    }
   }, [editMode]);
 
   return (
-    <div>
-      <Box sx={{ m: 2 }}>
-        <h1>Toast UI Editor</h1>
-        <Button
-          variant="outlined"
-          color="secondary"
-          sx={{ m: 1 }}
-          onClick={() => setEditMode(!editMode)}
-        >
-          {editMode ? "취소하기" : "편집하기"}
-        </Button>
-        <Button
-            variant="outlined"
-            color="primary"
-            sx={{ m: 1 }}
-            onClick={makePdf}
-            disabled={editMode === true}
-        >
-          PDF로 저장
-        </Button>
-        <Button
-          variant="outlined"
-          color="primary"
-          sx={{ m: 1 }}
-          onClick={handleSave}
-          disabled={editMode === false}
-        >
-          저장하기
-        </Button>
+      <div>
+        <Box sx={{ m: 2 }}>
+          <h1>Toast UI Editor</h1>
+          <Button
+              variant="outlined"
+              color="secondary"
+              sx={{ m: 1 }}
+              onClick={() => setEditMode(!editMode)}
+          >
+            {editMode ? "취소하기" : "편집하기"}
+          </Button>
+          <Button
+              variant="outlined"
+              color="primary"
+              sx={{ m: 1 }}
+              onClick={makePdf}
+              disabled={editMode === true}
+          >
+            PDF로 저장
+          </Button>
+          <Button
+              variant="outlined"
+              color="primary"
+              sx={{ m: 1 }}
+              onClick={handleSave}
+              disabled={editMode === false}
+          >
+            저장하기
+          </Button>
 
-        {editMode === false && <div id="pdf-download" className="toast-editor-viewer"></div>}
+          {editMode === false && <div id="pdf-download" className="toast-editor-viewer"></div>}
 
-        {editMode === true && (
-          <Editor
-            ref={editorRef}
-            height="400px"
-            placeholder="Please Enter Text."
-            previewStyle="tab" // or vertical
-            initialEditType="wysiwyg" // or markdown
-            // hideModeSwitch={true} // 하단 숨기기
-            toolbarItems={[
-              // 툴바 옵션 설정
-              ["heading", "bold", "italic", "strike"],
-              ["hr", "quote"],
-              ["ul", "ol", "task", "indent", "outdent"],
-              ["table", /* "image", */ "link"],
-              ["code", "codeblock"],
-            ]}
-            //theme="dark"
-            //useCommandShortcut={false} // 키보드 입력 컨트롤 방지 ex ctrl z 등
-            usageStatistics={false} // 통계 수집 거부
-            plugins={[[colorSyntax, colorSyntaxOptions], tableMergedCell]}
-          />
-        )}
-      </Box>
-    </div>
+          {editMode === true && (
+              <Editor
+                  ref={editorRef}
+                  height="400px"
+                  placeholder="Please Enter Text."
+                  previewStyle="tab" // or vertical
+                  initialEditType="wysiwyg" // or markdown
+                  // hideModeSwitch={true} // 하단 숨기기
+                  toolbarItems={[
+                    // 툴바 옵션 설정
+                    ["heading", "bold", "italic", "strike"],
+                    ["hr", "quote"],
+                    ["ul", "ol", "task", "indent", "outdent"],
+                    ["table", /* "image", */ "link"],
+                    ["code", "codeblock"],
+                  ]}
+                  //theme="dark"
+                  //useCommandShortcut={false} // 키보드 입력 컨트롤 방지 ex ctrl z 등
+                  usageStatistics={false} // 통계 수집 거부
+                  plugins={[[colorSyntax, colorSyntaxOptions], tableMergedCell]}
+              />
+          )}
+        </Box>
+      </div>
 
   );
 };

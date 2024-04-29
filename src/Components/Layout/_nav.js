@@ -44,6 +44,12 @@ const _nav = [
     to: '/lethe/chonky',
     icon: <CIcon icon={cibJava} customClassName="nav-icon" />,
   },
+  {
+    component: CNavItem,
+    name: 'Encrypt',
+    to: '/lethe/encrypt',
+    icon: <CIcon icon={cibJava} customClassName="nav-icon" />,
+  },
 ]
 
 export default _nav
